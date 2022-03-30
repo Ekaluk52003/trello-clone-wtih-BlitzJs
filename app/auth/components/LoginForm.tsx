@@ -13,7 +13,7 @@ export const LoginForm = (props: LoginFormProps) => {
 
   return (
     <div>
-      <h1>Login</h1>
+      <h1 className="text-xl mb-3 text-center">Login</h1>
 
       <Form
         submitText="Login"
