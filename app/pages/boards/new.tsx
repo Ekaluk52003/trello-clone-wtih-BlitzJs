@@ -8,11 +8,11 @@ const NewBoardPage: BlitzPage = () => {
   const [createBoardMutation] = useMutation(createBoard)
 
   return (
-    <div>
-      <h1>Create New Board</h1>
+    <div className="max-w-md mx-auto">
+      <h1 className="mt-8 font-bold mb-4 text-3xl">Create New Board</h1>
 
       <BoardForm
-        submitText="Create Board"
+        submitText="Create New Board"
         // TODO use a zod schema for form validation
         //  - Tip: extract mutation's schema into a shared `validations.ts` file and
         //         then import and use it here
@@ -30,12 +30,6 @@ const NewBoardPage: BlitzPage = () => {
           }
         }}
       />
-
-      <p>
-        <Link href={Routes.BoardsPage()}>
-          <a>Boards</a>
-        </Link>
-      </p>
     </div>
   )
 }

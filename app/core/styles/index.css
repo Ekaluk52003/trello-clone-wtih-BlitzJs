@@ -17,3 +17,7 @@
 .description {
   @apply text-center;
 }
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

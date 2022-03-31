@@ -46,12 +46,16 @@ function AddColumn(props) {
           + Add column
         </button>
       ) : (
-        <input
-          type="text"
-          value={value}
-          onChange={handleInputChange}
-          onBlur={onNewColumnInputComplete}
-        />
+        <div className="p-2 mb-5 bg-gray-200 w-52">
+          <input
+            type="text"
+            value={value}
+            className="align-middle w-44"
+            onChange={handleInputChange}
+            onBlur={onNewColumnInputComplete}
+          />
+          <p className="text-gray-600 tex-sm">Please type column name</p>{" "}
+        </div>
       )}
     </div>
   )

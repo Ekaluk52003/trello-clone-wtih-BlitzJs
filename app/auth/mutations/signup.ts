@@ -12,43 +12,5 @@ export default resolver.pipe(resolver.zod(Signup), async ({ email, password }, c
 
   await ctx.session.$create({ userId: user.id, role: user.role as Role })
 
-  await db.board.create({
-    data: {
-      name: "dfat board",
-      boardDetial: {
-        tasks: {
-          "task-1": {
-            id: "task-1",
-            content: "clean room",
-            priority: true,
-          },
-          "task-2": {
-            id: "task-2",
-            content: "run",
-            priority: false,
-          },
-        },
-        columns: {
-          "column-1": {
-            id: "column-1",
-            title: "To do",
-            taskIds: ["task-1"],
-          },
-          "column-2": {
-            id: "column-2",
-            title: "Done",
-            taskIds: ["task-2"],
-          },
-        },
-        columnOrder: ["column-1", "column-2"],
-      },
-      user: {
-        connect: {
-          id: user.id,
-        },
-      },
-    },
-  })
-
   return user
 })

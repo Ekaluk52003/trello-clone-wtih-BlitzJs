@@ -1,21 +1,30 @@
-import { Suspense, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { Head, Link, useRouter, useQuery, useParam, BlitzPage, useMutation, Routes } from "blitz"
 import { DragDropContext, Droppable } from "react-beautiful-dnd"
 import Layout from "app/core/layouts/Layout"
 import getBoard from "app/boards/queries/getBoard"
-import deleteBoard from "app/boards/mutations/deleteBoard"
 import Column from "../../boards/components/Column"
 import AddColumn from "../../boards/components/AddColumn"
+import updateBoard from "app/boards/mutations/updateBoard"
 
 export const Board = () => {
   const router = useRouter()
   const boardId = useParam("boardId", "number")
-  const [deleteBoardMutation] = useMutation(deleteBoard)
-  const [board] = useQuery(getBoard, { id: boardId })
-  const [state, setState] = useState<any>(board.boardDetial)
 
-  function onDragEnd(result) {
-    console.log(result)
+  const [board, { setQueryData }] = useQuery(
+    getBoard,
+    { id: boardId },
+    {
+      // This ensures the query never refreshes and overwrites the form data while the user is editing.
+      staleTime: Infinity,
+    }
+  )
+  const [state, setState] = useState<any>(board.boardDetial)
+  const [boardName, setBoardName] = useState<string | null>(board.name)
+  const [updateBoardMutation] = useMutation(updateBoard)
+  const [showEditName, setShowEditname] = useState(false)
+
+  const onDragEnd = async (result) => {
     const { destination, source, draggableId, type } = result
 
     if (!destination) {
@@ -35,6 +44,7 @@ export const Board = () => {
         ...state,
         columnOrder: newColumnOrder,
       })
+
       return
     }
 
@@ -58,6 +68,7 @@ export const Board = () => {
           [newColumn.id]: newColumn,
         },
       })
+
       return
     }
 
@@ -85,56 +96,101 @@ export const Board = () => {
     })
   }
 
+  useEffect(() => {
+    // declare the data fetching function
+    const updateData = async () => {
+      await updateBoardMutation({
+        //@ts-ignore
+        id: boardId,
+        name: boardName,
+        boardDetial: state,
+      })
+      setQueryData(board)
+    }
+
+    // call the function
+    updateData().catch(console.error)
+  }, [state, boardName])
+
+  function changeBoardName(e) {
+    setBoardName(e.target.value)
+  }
+
   return (
     <>
       <Head>
-        <title>Board {board.id}</title>
+        <title>Board {board.name}</title>
       </Head>
 
-      <div>
-        <h1>Board {board.id}</h1>
-        {/* <pre>{JSON.stringify(board, null, 2)}</pre> */}
-        <DragDropContext onDragEnd={onDragEnd}>
-          <AddColumn state={state} setState={setState} />
-          <Droppable droppableId="all-columns" direction="horizontal" type="column">
-            {(provided) => (
-              <div className="flex" {...provided.droppableProps} ref={provided.innerRef}>
-                {state.columnOrder.map((columnId, index) => {
-                  const column = state.columns[columnId]
-                  const tasks = column.taskIds.map((taskId) => state.tasks[taskId])
-                  return (
-                    <Column
-                      key={column.id}
-                      column={column}
-                      tasks={tasks}
-                      index={index}
-                      state={state}
-                      setState={setState}
-                    />
-                  )
-                })}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
+      <div
+        className="bg-cover bg-no-repeat h-full"
+        style={{
+          backgroundImage: `url("../images/background2.jpg")`,
+        }}
+      >
+        <div className="max-w-5xl px-2  mx-auto h-screen ">
+          {showEditName ? (
+            <div>
+              <input
+                className="py-4"
+                //@ts-ignore
+                value={boardName}
+                onChange={(e) => changeBoardName(e)}
+                onBlur={() => setShowEditname(false)}
+              />
+            </div>
+          ) : (
+            <div className="flex items-center">
+              <h1
+                className="cursor-pointer text-3xl font-bold pt-6"
+                onClick={() => setShowEditname(true)}
+              >
+                {" "}
+                {board.name}
+              </h1>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-6 self-end"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                />
+              </svg>
+            </div>
+          )}
 
-        {/* <Link href={Routes.EditBoardPage({ boardId: board.id })}>
-          <a>Edit</a>
-        </Link> */}
-
-        {/* <button
-          type="button"
-          onClick={async () => {
-            if (window.confirm("This will be deleted")) {
-              await deleteBoardMutation({ id: board.id })
-              router.push(Routes.BoardsPage())
-            }
-          }}
-          style={{ marginLeft: "0.5rem" }}
-        >
-          Delete
-        </button> */}
+          {/* <pre>{JSON.stringify(board, null, 2)}</pre> */}
+          <DragDropContext onDragEnd={onDragEnd}>
+            <AddColumn state={state} setState={setState} />
+            <Droppable droppableId="all-columns" direction="horizontal" type="column">
+              {(provided) => (
+                <div className="flex" {...provided.droppableProps} ref={provided.innerRef}>
+                  {state.columnOrder.map((columnId, index) => {
+                    const column = state.columns[columnId]
+                    const tasks = column.taskIds.map((taskId) => state.tasks[taskId])
+                    return (
+                      <Column
+                        key={column.id}
+                        column={column}
+                        tasks={tasks}
+                        index={index}
+                        state={state}
+                        setState={setState}
+                      />
+                    )
+                  })}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+        </div>
       </div>
     </>
   )

@@ -4,7 +4,8 @@ import { z } from "zod"
 
 const UpdateBoard = z.object({
   id: z.number(),
-  name: z.string(),
+  name: z.string().nullable(),
+  boardDetial: z.any(),
 })
 
 export default resolver.pipe(
