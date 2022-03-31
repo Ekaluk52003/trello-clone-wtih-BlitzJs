@@ -5,7 +5,6 @@ import { Ctx } from "blitz"
 
 const CreateBoard = z.object({
   name: z.string(),
-  id: z.number(),
 })
 
 export default resolver.pipe(
