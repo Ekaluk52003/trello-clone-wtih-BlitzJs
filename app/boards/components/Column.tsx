@@ -38,7 +38,7 @@ function Column(props) {
             {...provided.draggableProps}
             ref={provided.innerRef}
           >
-            <div className="px-2 pb-2 bg-gray-200 rounded-lg shadow-sm h-96 overflow-y-auto h-42">
+            <div className="px-2 pb-2 bg-gray-200 rounded-lg shadow-sm h-92">
               <div className="flex justify-between px-2 py-2 align-baseline">
                 <h3 {...provided.dragHandleProps} className="text-sm font-bold">
                   {props.column.title}

@@ -123,12 +123,12 @@ export const Board = () => {
       </Head>
 
       <div
-        className="bg-cover bg-no-repeat"
+        className="bg-cover bg-no-repeat overflow-x-clip"
         style={{
           backgroundImage: `url("../images/background2.jpg")`,
         }}
       >
-        <div className="px-8  mx-auto">
+        <div className="px-8 mx-auto">
           {showEditName ? (
             <div>
               <input
@@ -171,7 +171,7 @@ export const Board = () => {
             <Droppable droppableId="all-columns" direction="horizontal" type="column">
               {(provided) => (
                 <div
-                  className="flex flex-nowrap overflow-x-auto"
+                  className="flex flex-nowrap"
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
