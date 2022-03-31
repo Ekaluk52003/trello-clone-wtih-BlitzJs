@@ -1,8 +1,9 @@
-import React from "react"
+import React, { useState } from "react"
 import { Draggable } from "react-beautiful-dnd"
 
 function Task(props) {
-  const [priority, setPriority] = React.useState(props.task.priority)
+  const [priority, setPriority] = useState(props.task.priority)
+  const [showEditTask, setShowEditTask] = useState(false)
 
   function editTask(e, taskId) {
     props.setState({
@@ -119,12 +120,16 @@ function Task(props) {
                   <p className="inline-flex text-red-600 text-sm">Urgent</p>
                 </>
               )}
-
-              <textarea
-                placeholder="title"
-                value={props.task.content}
-                onChange={(e) => editTask(e, props.task.id)}
-              />
+              {showEditTask ? (
+                <textarea
+                  placeholder="title"
+                  value={props.task.content}
+                  onChange={(e) => editTask(e, props.task.id)}
+                  onBlur={() => setShowEditTask(false)}
+                />
+              ) : (
+                <p onClick={() => setShowEditTask(true)}>{props.task.content}</p>
+              )}
 
               <div className="flex justify-between ">
                 <div onClick={() => deleteTask(props.columnId, props.index, props.task.id)}>
