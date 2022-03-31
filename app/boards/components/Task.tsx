@@ -92,14 +92,19 @@ function Task(props) {
                 </>
               )}
               {showEditTask ? (
-                <textarea
-                  placeholder="title"
-                  value={props.task.content}
-                  onChange={(e) => editTask(e, props.task.id)}
-                  onBlur={() => setShowEditTask(false)}
-                />
+                <div className="my-8">
+                  <textarea
+                    className="px-2 py-1 text-sm"
+                    placeholder="title"
+                    value={props.task.content}
+                    onChange={(e) => editTask(e, props.task.id)}
+                    onBlur={() => setShowEditTask(false)}
+                  />
+                </div>
               ) : (
-                <p onClick={() => setShowEditTask(true)}>{props.task.content}</p>
+                <p onClick={() => setShowEditTask(true)} className="text-sm p-2 w-full break-words">
+                  {props.task.content}
+                </p>
               )}
 
               <div className="flex justify-between ">

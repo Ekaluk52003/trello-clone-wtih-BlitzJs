@@ -50,11 +50,15 @@ function AddTask(props) {
   return (
     <div className="w-full">
       {showNewTaskButton ? (
-        <button onClick={onNewTaskButtonClick} className="px-3 py-2 text-sm text-gray-500">
+        <button
+          onClick={onNewTaskButtonClick}
+          className="px-3 py-2 text-sm text-white text-center font-bold"
+        >
           Click to add item
         </button>
       ) : (
         <input
+          className="px-3 py-2 mt-3"
           type="text"
           value={value}
           onChange={handleInputChange}

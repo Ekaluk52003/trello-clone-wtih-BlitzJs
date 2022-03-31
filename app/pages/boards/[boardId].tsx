@@ -123,12 +123,12 @@ export const Board = () => {
       </Head>
 
       <div
-        className="bg-cover bg-no-repeat h-full"
+        className="bg-cover bg-no-repeat"
         style={{
           backgroundImage: `url("../images/background2.jpg")`,
         }}
       >
-        <div className="max-w-5xl px-2  mx-auto h-screen ">
+        <div className="px-8  mx-auto">
           {showEditName ? (
             <div>
               <input
@@ -170,7 +170,11 @@ export const Board = () => {
             <AddColumn state={state} setState={setState} />
             <Droppable droppableId="all-columns" direction="horizontal" type="column">
               {(provided) => (
-                <div className="flex" {...provided.droppableProps} ref={provided.innerRef}>
+                <div
+                  className="flex flex-nowrap overflow-x-auto"
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
                   {state.columnOrder.map((columnId, index) => {
                     const column = state.columns[columnId]
                     const tasks = column.taskIds.map((taskId) => state.tasks[taskId])
