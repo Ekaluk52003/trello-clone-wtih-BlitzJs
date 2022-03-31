@@ -1,4 +1,4 @@
-[![Blitz.js](https://raw.githubusercontent.com/blitz-js/art/master/github-cover-photo.png)](https://blitzjs.com)
+![blitz](https://user-images.githubusercontent.com/22210993/161032654-1d18243b-f022-488d-8568-0bed9762b01d.jpg)
 
 This is a [Blitz.js](https://github.com/blitz-js/blitz) app.
 
