@@ -38,35 +38,6 @@ function Task(props) {
     console.log("after", props.task)
   }
 
-  function addTask(columnId) {
-    const newTaskId = "task-" + Math.floor(Math.random() * 100000)
-
-    const column = props.state.columns[columnId]
-    const newTaskIds = Array.from(column.taskIds)
-    newTaskIds.push(newTaskId)
-
-    const newTask = {
-      id: newTaskId,
-      content: "",
-      priority: false,
-    }
-
-    props.setState({
-      ...props.state,
-      tasks: {
-        ...props.state.tasks,
-        [newTaskId]: newTask,
-      },
-      columns: {
-        ...props.state.columns,
-        [columnId]: {
-          ...props.state.columns[columnId],
-          taskIds: newTaskIds,
-        },
-      },
-    })
-  }
-
   function deleteTask(columnId, index, taskId) {
     const column = props.state.columns[columnId]
     const newTaskIds = Array.from(column.taskIds)
@@ -160,7 +131,6 @@ function Task(props) {
                     />
                   </svg>
                 </div>
-                <div onClick={() => addTask(props.columnId)}>+</div>
               </div>
             </div>
           </>
