@@ -126,7 +126,7 @@ export const Board = () => {
       </Head>
 
       <div
-        className="bg-cover bg-no-repeat overflow-x-clip h-full"
+        className="bg-cover bg-no-repeat overflow-x-scroll h-full"
         style={{
           backgroundImage: `url(${bgimage})`,
         }}
