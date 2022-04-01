@@ -5,6 +5,7 @@ import { z } from "zod"
 const UpdateBoard = z.object({
   id: z.number(),
   name: z.string().nullable(),
+  image: z.string().nullable(),
   boardDetial: z.any(),
 })
 

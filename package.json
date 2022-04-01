@@ -24,8 +24,10 @@
     ]
   },
   "dependencies": {
+    "@headlessui/react": "1.5.0",
     "@prisma/client": "3.11.1",
     "autoprefixer": "10.x",
+    "axios": "0.26.1",
     "blitz": "0.45.3",
     "final-form": "4.20.6",
     "postcss": "8.x",
@@ -33,7 +35,9 @@
     "react-beautiful-dnd": "13.1.0",
     "react-dom": "18.0.0-alpha-5ca4b0433-20211020",
     "react-final-form": "6.5.8",
+    "react-infinite-scroll-component": "6.1.0",
     "tailwindcss": "3.x",
+    "unsplash-js": "7.0.15",
     "zod": "3.14.3"
   },
   "devDependencies": {

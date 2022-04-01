@@ -42,7 +42,10 @@ function AddColumn(props) {
   return (
     <div>
       {showNewColumnButton ? (
-        <button onClick={onNewColumnButtonClick} className="py-4 text-bold">
+        <button
+          onClick={onNewColumnButtonClick}
+          className=" text-bold bg-gray-200 px-4 py-2 mt-5 mb-2 rounded-lg"
+        >
           + Add column
         </button>
       ) : (

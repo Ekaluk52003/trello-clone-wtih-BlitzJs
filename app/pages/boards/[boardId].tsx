@@ -6,9 +6,9 @@ import getBoard from "app/boards/queries/getBoard"
 import Column from "../../boards/components/Column"
 import AddColumn from "../../boards/components/AddColumn"
 import updateBoard from "app/boards/mutations/updateBoard"
+import UnsplashDialog from "app/boards/components/UnsplashDialog"
 
 export const Board = () => {
-  const router = useRouter()
   const boardId = useParam("boardId", "number")
 
   const [board, { setQueryData }] = useQuery(
@@ -23,6 +23,8 @@ export const Board = () => {
   const [boardName, setBoardName] = useState<string | null>(board.name)
   const [updateBoardMutation] = useMutation(updateBoard)
   const [showEditName, setShowEditname] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const [bgimage, SetBgimage] = useState(board.image)
 
   const onDragEnd = async (result) => {
     const { destination, source, draggableId, type } = result
@@ -104,13 +106,14 @@ export const Board = () => {
         id: boardId,
         name: boardName,
         boardDetial: state,
+        image: bgimage,
       })
       setQueryData(board)
     }
 
     // call the function
     updateData().catch(console.error)
-  }, [state, boardName])
+  }, [state, boardName, bgimage])
 
   function changeBoardName(e) {
     setBoardName(e.target.value)
@@ -123,34 +126,52 @@ export const Board = () => {
       </Head>
 
       <div
-        className="bg-cover bg-no-repeat overflow-x-clip"
+        className="bg-cover bg-no-repeat overflow-x-clip h-full"
         style={{
-          backgroundImage: `url("../images/background2.jpg")`,
+          backgroundImage: `url(${bgimage})`,
         }}
       >
-        <div className="px-8 mx-auto">
-          {showEditName ? (
-            <div>
-              <input
-                className="py-4"
-                //@ts-ignore
-                value={boardName}
-                onChange={(e) => changeBoardName(e)}
-                onBlur={() => setShowEditname(false)}
-              />
-            </div>
-          ) : (
-            <div className="flex items-center">
-              <h1
-                className="cursor-pointer text-3xl font-bold pt-6"
-                onClick={() => setShowEditname(true)}
-              >
-                {" "}
-                {board.name}
-              </h1>
+        <div className="px-8 mx-auto h-full">
+          <div className="flex justify-between items-end">
+            {showEditName ? (
+              <div>
+                <input
+                  className="py-4"
+                  //@ts-ignore
+                  value={boardName}
+                  onChange={(e) => changeBoardName(e)}
+                  onBlur={() => setShowEditname(false)}
+                />
+              </div>
+            ) : (
+              <div className="flex items-center">
+                <h1
+                  className="cursor-pointer text-3xl font-bold pt-6"
+                  onClick={() => setShowEditname(true)}
+                >
+                  {" "}
+                  {board.name}
+                </h1>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-6 self-end"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                  />
+                </svg>
+              </div>
+            )}
+            <button onClick={() => setIsOpen(true)} className="bg-gray-200 rounded-lg">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-6 self-end"
+                className="h-12 w-12"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -159,13 +180,18 @@ export const Board = () => {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                 />
               </svg>
-            </div>
-          )}
+            </button>
+          </div>
 
-          {/* <pre>{JSON.stringify(board, null, 2)}</pre> */}
+          <UnsplashDialog
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            bgimage={bgimage}
+            SetBgimage={SetBgimage}
+          />
           <DragDropContext onDragEnd={onDragEnd}>
             <AddColumn state={state} setState={setState} />
             <Droppable droppableId="all-columns" direction="horizontal" type="column">

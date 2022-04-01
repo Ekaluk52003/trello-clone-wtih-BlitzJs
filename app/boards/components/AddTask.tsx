@@ -48,24 +48,26 @@ function AddTask(props) {
   }
 
   return (
-    <div className="w-full">
+    <>
       {showNewTaskButton ? (
-        <button
-          onClick={onNewTaskButtonClick}
-          className="px-3 py-2 text-sm text-white text-center font-bold"
-        >
-          Click to add item
-        </button>
+        <div className="w-full bg-gray-200 px-8 mt-3 rounded-lg">
+          <button
+            onClick={onNewTaskButtonClick}
+            className="px-3 py-2 text-sm  text-center font-bold"
+          >
+            Click to add item
+          </button>
+        </div>
       ) : (
         <input
-          className="px-3 py-2 mt-3"
+          className=" mt-4 px-3 py-2"
           type="text"
           value={value}
           onChange={handleInputChange}
           onBlur={onNewTaskInputComplete}
         />
       )}
-    </div>
+    </>
   )
 }
 
