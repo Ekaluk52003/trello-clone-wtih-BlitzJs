@@ -17,7 +17,7 @@ const UnsplashDialog = ({ isOpen, setIsOpen, bgimage, SetBgimage }) => {
     setIsOpen(true)
   }
 
-  const client_id = "7567018-4969b128f42dbe9ed866f52d0"
+  const client_id = process.env.NEXT_PUBLIC_PIXABAY_KEY
   const fetchUrl = `https://pixabay.com/api/?key=${client_id}&q=${query}&page=${page}`
 
   const fetchImages = () => {
@@ -84,7 +84,7 @@ const UnsplashDialog = ({ isOpen, setIsOpen, bgimage, SetBgimage }) => {
                 id="scrollableDiv"
               >
                 <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900 pb-2">
-                  Pick your backgound
+                  These images are brought from Pixalbay API
                 </Dialog.Title>
                 <div className="mb-2">
                   <input
@@ -101,7 +101,7 @@ const UnsplashDialog = ({ isOpen, setIsOpen, bgimage, SetBgimage }) => {
                     height={350}
                     endMessage={
                       <p style={{ textAlign: "center" }}>
-                        <b>Yay! You have seen it all</b>
+                        <b>Load all images are completed</b>
                       </p>
                     }
                     scrollableTarget="scrollableDiv"

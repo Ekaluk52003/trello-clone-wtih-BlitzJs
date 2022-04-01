@@ -1,7 +1,7 @@
 import { Suspense, useEffect, useState } from "react"
 import { Head, Link, useRouter, useQuery, useParam, BlitzPage, useMutation, Routes } from "blitz"
 import { DragDropContext, Droppable } from "react-beautiful-dnd"
-import Layout from "app/core/layouts/Layout"
+import logout from "app/auth/mutations/logout"
 import getBoard from "app/boards/queries/getBoard"
 import Column from "../../boards/components/Column"
 import AddColumn from "../../boards/components/AddColumn"
@@ -10,6 +10,7 @@ import UnsplashDialog from "app/boards/components/UnsplashDialog"
 
 export const Board = () => {
   const boardId = useParam("boardId", "number")
+  const [logoutMutation] = useMutation(logout)
 
   const [board, { setQueryData }] = useQuery(
     getBoard,
@@ -126,11 +127,40 @@ export const Board = () => {
       </Head>
 
       <div
-        className="bg-cover bg-no-repeat overflow-x-scroll h-full"
+        className="bg-cover bg-no-repeat min-h-screen min-w-fit"
         style={{
           backgroundImage: `url(${bgimage})`,
         }}
       >
+        <div className="flex justify-between px-3 py-2 text-white bg-blue-500">
+          <Link href={Routes.BoardsPage()}>
+            <a>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 inline-flex"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+                />
+              </svg>
+              <span className="text-md font-bold">Board Room</span>
+            </a>
+          </Link>
+          <button
+            className="button small text-md font-bold"
+            onClick={async () => {
+              await logoutMutation()
+            }}
+          >
+            Logout
+          </button>
+        </div>
         <div className="px-8 mx-auto h-full">
           <div className="flex justify-between items-end">
             {showEditName ? (
@@ -197,7 +227,7 @@ export const Board = () => {
             <Droppable droppableId="all-columns" direction="horizontal" type="column">
               {(provided) => (
                 <div
-                  className="flex flex-nowrap"
+                  className="flex flex-wrap md:flex-nowrap"
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
@@ -237,6 +267,5 @@ const ShowBoardPage: BlitzPage = () => {
 }
 
 ShowBoardPage.authenticate = true
-ShowBoardPage.getLayout = (page) => <Layout>{page}</Layout>
 
 export default ShowBoardPage

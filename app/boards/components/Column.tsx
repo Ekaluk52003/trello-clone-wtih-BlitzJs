@@ -34,7 +34,7 @@ function Column(props) {
       {(provided) => (
         <>
           <div
-            className="mr-5 w-52 shrink-0 mb-12"
+            className="mr-5 w-full md:w-52 shrink-0 mb-12"
             {...provided.draggableProps}
             ref={provided.innerRef}
           >
