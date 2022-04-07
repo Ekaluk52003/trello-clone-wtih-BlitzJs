@@ -2,12 +2,12 @@
 
 ![Screenshot 2022-04-07 190555](https://user-images.githubusercontent.com/22210993/162194902-ec9f53ce-3c0e-4ced-9a8f-62a0282e4cb0.jpg)
 
-
 ## This is the prototype Trello-clone using full stack frame work "BlitzJS"
 
-# Tech Stack
+# Features
 
 -Kanban board with drag and drop feature
+-User can only see and edit their boards
 -Google authentication is included.
 
 # Tech Stack
