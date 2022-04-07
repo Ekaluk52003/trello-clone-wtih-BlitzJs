@@ -6,7 +6,7 @@
 
 ## This is the prototype Trello-clone using full stack frame work "BlitzJS"
 
-# Tech Stack
+# Features
 
 -Kanban board with drag and drop feature
 -User can only see their board and can change background for each board
